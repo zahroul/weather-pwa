@@ -86,9 +86,33 @@
         </header>
 
         <main>
+            <section class="card">
+                <h2 class="location"></h2>
+            </section>
+
             <svg xmlns="http://www.w3.org/2000/svg">
                 <circle cx="16" cy="16" r="14"></circle>
             </svg>
         </main>
+
+        <script>
+            const app = {
+                card: document.querySelector('.card'),
+
+                updateForecastCard: function(weather) {
+                    this.card.querySelector('.location').textContent = weather.label;
+                }
+            };
+
+            /**
+             * Fake weather data
+             */
+            const fakeWeather = {
+                label: 'New York, NY'
+            };
+
+            // Test app with fake data
+            app.updateForecastCard(fakeWeather);
+        </script>
     </body>
 </html>
