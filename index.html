@@ -90,17 +90,26 @@
                 <h2 class="location"></h2>
             </section>
 
-            <svg xmlns="http://www.w3.org/2000/svg">
-                <circle cx="16" cy="16" r="14"></circle>
-            </svg>
+            <div class="loading-indicator">
+                <svg xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="14"></circle>
+                </svg>
+            </div>
         </main>
 
         <script>
             const app = {
+                isLoading: true,
+                loadingIndicator: document.querySelector('.loading-indicator'),
                 card: document.querySelector('.card'),
 
                 updateForecastCard: function(weather) {
                     this.card.querySelector('.location').textContent = weather.label;
+
+                    if (this.isLoading) {
+                        this.loadingIndicator.setAttribute('hidden', 'true');
+                        this.isLoading = false;
+                    }
                 }
             };
 
