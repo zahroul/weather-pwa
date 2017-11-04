@@ -88,6 +88,11 @@
         <main>
             <section class="card">
                 <h2 class="location"></h2>
+                <div class="date"></div>
+                <div class="description"></div>
+                <div class="temperature">
+                    <span class="value"></span><span class="scale">°F</span>
+                </div>
             </section>
 
             <div class="loading-indicator">
@@ -104,7 +109,12 @@
                 card: document.querySelector('.card'),
 
                 updateForecastCard: function(weather) {
+                    const current = weather.channel.item.condition;
+
                     this.card.querySelector('.location').textContent = weather.label;
+                    this.card.querySelector('.date').textContent = current.date;
+                    this.card.querySelector('.description').textContent = current.text;
+                    this.card.querySelector('.temperature .value').textContent = current.temp;
 
                     if (this.isLoading) {
                         this.loadingIndicator.setAttribute('hidden', 'true');
@@ -117,7 +127,17 @@
              * Fake weather data
              */
             const fakeWeather = {
-                label: 'New York, NY'
+                label: 'New York, NY',
+                channel: {
+                    item: {
+                        condition: {
+                            code: '24',
+                            date: 'Thu, 21 Jul 2016 09:00 PM EDT',
+                            temp: '56',
+                            text: 'Windy'
+                        }
+                    }
+                }
             };
 
             // Test app with fake data
