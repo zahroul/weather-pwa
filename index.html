@@ -101,6 +101,12 @@
                     <span class="speed"></span><span class="scale">mpH</span>
                     <span class="direction"></span><span class="scale">°</span>
                 </div>
+                <div class="sunrise">
+                    Sunrise: <span class="value"></span>
+                </div>
+                <div class="sunset">
+                    Sunset: <span class="value"></span>
+                </div>
             </section>
 
             <div class="loading-indicator">
@@ -119,6 +125,7 @@
                 updateForecastCard: function(weather) {
                     const current = weather.channel.item.condition;
                     const wind = weather.channel.wind;
+                    const astronomy = weather.channel.astronomy;
 
                     this.card.querySelector('.location').textContent = weather.label;
                     this.card.querySelector('.date').textContent = current.date;
@@ -127,6 +134,8 @@
                     this.card.querySelector('.humidity .value').textContent = weather.channel.atmosphere.humidity;
                     this.card.querySelector('.wind .speed').textContent = wind.speed;
                     this.card.querySelector('.wind .direction').textContent = wind.direction;
+                    this.card.querySelector('.sunrise .value').textContent = astronomy.sunrise;
+                    this.card.querySelector('.sunset .value').textContent = astronomy.sunset;
 
                     if (this.isLoading) {
                         this.loadingIndicator.setAttribute('hidden', 'true');
@@ -147,6 +156,10 @@
                     },
                     atmosphere: {
                         humidity: '56'
+                    },
+                    astronomy: {
+                        sunrise: '5:43 am',
+                        sunset: '8:21 pm'
                     },
                     item: {
                         condition: {
