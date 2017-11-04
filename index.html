@@ -93,6 +93,14 @@
                 <div class="temperature">
                     <span class="value"></span><span class="scale">°F</span>
                 </div>
+                <div class="humidity">
+                    Humidity: <span class="value"></span><span class="scale">%</span>
+                </div>
+                <div class="wind">
+                    Wind:
+                    <span class="speed"></span><span class="scale">mpH</span>
+                    <span class="direction"></span><span class="scale">°</span>
+                </div>
             </section>
 
             <div class="loading-indicator">
@@ -110,11 +118,15 @@
 
                 updateForecastCard: function(weather) {
                     const current = weather.channel.item.condition;
+                    const wind = weather.channel.wind;
 
                     this.card.querySelector('.location').textContent = weather.label;
                     this.card.querySelector('.date').textContent = current.date;
                     this.card.querySelector('.description').textContent = current.text;
                     this.card.querySelector('.temperature .value').textContent = current.temp;
+                    this.card.querySelector('.humidity .value').textContent = weather.channel.atmosphere.humidity;
+                    this.card.querySelector('.wind .speed').textContent = wind.speed;
+                    this.card.querySelector('.wind .direction').textContent = wind.direction;
 
                     if (this.isLoading) {
                         this.loadingIndicator.setAttribute('hidden', 'true');
@@ -129,6 +141,13 @@
             const fakeWeather = {
                 label: 'New York, NY',
                 channel: {
+                    wind: {
+                        direction: '195',
+                        speed: '25'
+                    },
+                    atmosphere: {
+                        humidity: '56'
+                    },
                     item: {
                         condition: {
                             code: '24',
