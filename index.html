@@ -122,6 +122,28 @@
                 loadingIndicator: document.querySelector('.loading-indicator'),
                 card: document.querySelector('.card'),
 
+                getForecast: function(key, label) {
+                    const request = new XMLHttpRequest();
+
+                    request.onreadystatechange = function () {
+                        if (request.readyState === XMLHttpRequest.DONE) {
+                            if (request.status === 200) {
+                                const response = JSON.parse(request.response);
+                                const results = response.query.results;
+
+                                results.label = label;
+
+                                // TODO add the `results` processor
+                            }
+                        }
+                    };
+                    request.open(
+                        'GET',
+                        `https://query.yahooapis.com/v1/public/yql?format=json&q=SELECT * FROM weather.forecast WHERE woeid=${key}`
+                    );
+                    request.send();
+                },
+
                 updateForecastCard: function(weather) {
                     const current = weather.channel.item.condition;
                     const wind = weather.channel.wind;
