@@ -1,5 +1,6 @@
 const app = {
     isLoading: true,
+    selectedCity: null,
     loadingIndicator: document.querySelector('.loading-indicator'),
     card: document.querySelector('.card'),
 
@@ -45,18 +46,23 @@ const app = {
             this.loadingIndicator.setAttribute('hidden', 'true');
             this.isLoading = false;
         }
+    },
+
+    saveSelectedCity: function() {
+        const selectedCity = JSON.stringify(this.selectedCity);
+        localStorage.selectedCity = selectedCity;
     }
 };
 
 document.getElementById('citySelector').addEventListener(
     'change',
     function(event) {
-        const eventTarget = event.target;
+        const key = event.target.value;
+        const value = event.target.options[event.target.selectedIndex].textContent;
 
-        app.getForecast(
-            eventTarget.value,
-            eventTarget.options[eventTarget.selectedIndex].text
-        );
+        app.getForecast(key, value);
+        app.selectedCity = {key: key, value: value}
+        app.saveSelectedCity();
     }
 );
 
@@ -64,6 +70,7 @@ document.getElementById('citySelector').addEventListener(
  * Fake weather data
  */
 const fakeWeather = {
+    key: '2459115',
     label: 'New York, NY',
     channel: {
         wind: {
@@ -90,3 +97,15 @@ const fakeWeather = {
 
 // Test app with fake data
 // app.updateForecastCard(fakeWeather);
+
+// Startup code
+app.selectedCity = localStorage.selectedCity;
+
+if (app.selectedCity) {
+    const selectedCity = JSON.parse(app.selectedCity);
+    app.getForecast(selectedCity.key, selectedCity.value);
+} else {
+    app.updateForecastCard(fakeWeather);
+    app.selectedCity = {key: fakeWeather.key, label: fakeWeather.label};
+    app.saveSelectedCity();
+}
